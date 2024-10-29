@@ -26,14 +26,16 @@ def getStarted():
         ),
     )
     docs = loader.load()
+
     # Step 2: Split
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
-    
+
     # Step 3: Vectorize
     vectorstore = InMemoryVectorStore.from_documents(
         documents=splits, embedding=OpenAIEmbeddings()
     )
+
     retriever = vectorstore.as_retriever()
 
     # 2. Incorporate the retriever into a question-answering chain.
@@ -46,6 +48,7 @@ def getStarted():
         "\n\n"
         "{context}"
     )
+    
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_prompt),
